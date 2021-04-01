@@ -1,3 +1,8 @@
+const generateIdPlayer = function() {
+    // Return Random number...
+    return Math.floor((Math.random() * 1000) + 1); // Random number between 1 and 10000
+};
+
 // Function to Add response data API in the DOM
 const addDatasInTheDom = function (response) {
     // Show title game
@@ -5,6 +10,9 @@ const addDatasInTheDom = function (response) {
 
     // Show the level game
     $('header').append($('<h3>Game level : ' + response.levelGame + '</h3>'));
+
+    // Show the id player
+    $('header').append($('<h4>ID Player : #' + generateIdPlayer() + '</h4>'));
 };
 
 // Function callAPI
