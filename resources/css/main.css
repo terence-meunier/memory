@@ -1,0 +1,11 @@
+#memory-cards {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.img-thumbnails {
+    border: 1px solid black;
+    padding : 20px;
+    margin: 20px;
+}
