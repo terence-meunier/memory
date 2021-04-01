@@ -5,9 +5,16 @@ const generateIdPlayer = function() {
 
 // Function to Add cards of the memory
 const addCardsOfTheMemory = function(pictures) {
-    pictures.forEach(function (picture) {
-        $('#memory-cards').append($('<div class="img-thumbnails"><img src="resources/img/png/' + picture + '.png" /></div>'));
-    });
+    const randomPictures = pictures.sort((a, b) => Math.random()*1000 - Math.random()*1000);
+    $('#memory-cards').append($('<table></table>'));
+    $('#memory-cards > table').append($('<tr></tr>'));
+    for (let i=0; i<randomPictures.length/2; i++) {
+        $('#memory-cards > table').first().append($('<td><img class="img-thumbnails" src="resources/img/png/' + randomPictures[i] + '.png" /></td>'));
+    }
+    $('#memory-cards > table').append($('<tr></tr>'));
+    for (let i=randomPictures.length/2; i<randomPictures.length; i++) {
+        $('#memory-cards > table').last().append($('<td><img class="img-thumbnails" src="resources/img/png/' + randomPictures[i] + '.png" /></td>'));
+    }
 };
 
 // Function to Add response data API in the DOM
@@ -35,7 +42,18 @@ const callAPI = function(onSuccess) {
         "gameName": "My Memory",
         "levelGame": "Easy",
         "numbersOfChances": 20,
-        "pictures": ['rond','carre','triangle','losange','etoile'],
+        "pictures": [
+            'rond',
+            'carre',
+            'triangle',
+            'losange',
+            'etoile',
+            'rond',
+            'carre',
+            'triangle',
+            'losange',
+            'etoile'
+        ],
     };
     // Success response of the fake API
     onSuccess(response);
