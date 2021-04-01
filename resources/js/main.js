@@ -5,15 +5,24 @@ const generateIdPlayer = function() {
 
 // Function to Add cards of the memory
 const addCardsOfTheMemory = function(pictures) {
-    const randomPictures = pictures.sort((a, b) => Math.random()*1000 - Math.random()*1000);
+    const randomPictures = pictures.sort(() => Math.random()*1000 - Math.random()*1000);
     $('#memory-cards').append($('<table></table>'));
     $('#memory-cards > table').append($('<tr></tr>'));
     for (let i=0; i<randomPictures.length/2; i++) {
-        $('#memory-cards > table').first().append($('<td><img class="img-thumbnails" src="resources/img/png/' + randomPictures[i] + '.png" /></td>'));
+        $('#memory-cards > table').first().append($('<td id=' + i + '><img class="img-thumbnails masque" src="resources/img/png/' + randomPictures[i] + '.png" /><img class="img-thumbnails" src="resources/img/png/mystery.png" /></td>'));
+        $('#' + i).first().on('click', function(event) {
+            // show the hidden
+            const prev = event.target.previousSibling;
+            if (prev != null) {
+                event.target.previousSibling.className = 'img-thumbnails';
+                event.target.remove();
+            }
+
+        });
     }
     $('#memory-cards > table').append($('<tr></tr>'));
     for (let i=randomPictures.length/2; i<randomPictures.length; i++) {
-        $('#memory-cards > table').last().append($('<td><img class="img-thumbnails" src="resources/img/png/' + randomPictures[i] + '.png" /></td>'));
+        $('#memory-cards > table').last().append($('<td id=' + i + '><img class="img-thumbnails masque" src="resources/img/png/' + randomPictures[i] + '.png" /><img class="img-thumbnails" src="resources/img/png/mystery.png" /></td>'));
     }
 };
 
