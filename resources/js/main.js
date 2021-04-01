@@ -3,6 +3,11 @@ const generateIdPlayer = function() {
     return Math.floor((Math.random() * 1000) + 1); // Random number between 1 and 10000
 };
 
+// Function to Add cards of the memory
+const addCardsOfTheMemory = function(pictures) {
+    
+}
+
 // Function to Add response data API in the DOM
 const addDatasInTheDom = function (response) {
     // Show title game
@@ -13,6 +18,9 @@ const addDatasInTheDom = function (response) {
 
     // Show the id player
     $('header').append($('<h4>ID Player : #' + generateIdPlayer() + '</h4>'));
+
+    // Show number of chances
+    $('header').append($('<h5>Numbers of chances : ' + response.numbersOfChances + ' Chances</h5>'));
 };
 
 // Function callAPI
