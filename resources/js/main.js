@@ -2,11 +2,27 @@
 let cardsSelected = [];
 let nbChances;
 let score = 0;
+let pairFound = 0;
 
 // Génération de l'ID Player
 const generateIdPlayer = function () {
     // Return Random number...
     return Math.floor((Math.random() * 1000) + 1); // Random number between 1 and 10000
+};
+
+// Fonction checkWin
+const checkWin = function() {
+    if (pairFound == 5) {
+        if (score > 0) {
+            alert('Score : ' + score + ' | Vous avez gagné, pas mal le score !!!');
+        } else if (score == 0) {
+            alert('Score : ' + score + ' | Votre score est de 0 la tête à toto !!!');
+        } else {
+            alert('Score : ' + score + ' | Cela se passe de commentaires je pense avec un score pareil');
+        }
+
+        setTimeout(location.reload(), 500);
+    }
 };
 
 // Function checkImage
@@ -34,11 +50,11 @@ const checkImage = function (event) {
             if (cardsSelected[0].alt == cardsSelected[1].alt) {
                 // Ajouter +10 au score
                 score = score + 10;
-                $('#score').text(score);
+                pairFound = pairFound + 1;
             } else {
                 // Enlever une chance
                 nbChances = nbChances - 1;
-                $('#nbChances').text(nbChances);
+                score = score - 10;    
 
                 // On change la visibilité
                 document.querySelector('#' + cardsSelected[0].id).firstChild.className = 'img-thumbnails masque';
@@ -49,7 +65,15 @@ const checkImage = function (event) {
 
             // Réinitialiser le tableau
             cardsSelected = [];
-        }, 500);
+
+            // Réaffichage
+            $('#score').text(score);
+            $('#nbChances').text(nbChances);
+
+            // On check to win ^^
+            checkWin();
+
+        }, 300);
     }
 };
 
