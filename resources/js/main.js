@@ -5,8 +5,10 @@ const generateIdPlayer = function() {
 
 // Function to Add cards of the memory
 const addCardsOfTheMemory = function(pictures) {
-    
-}
+    pictures.forEach(function (picture) {
+        $('#memory-cards').append($('<div class="img-thumbnails"><img src="resources/img/png/' + picture + '.png" /></div>'));
+    });
+};
 
 // Function to Add response data API in the DOM
 const addDatasInTheDom = function (response) {
@@ -21,20 +23,26 @@ const addDatasInTheDom = function (response) {
 
     // Show number of chances
     $('header').append($('<h5>Numbers of chances : ' + response.numbersOfChances + ' Chances</h5>'));
+
+    // Add memory cards
+    addCardsOfTheMemory(response.pictures);
 };
 
 // Function callAPI
 const callAPI = function(onSuccess) {
-    $.ajax({
-        url: "https://api.mocki.io/v1/61a5978d",
-        method: "GET",
-        dataType: "json",
-    })
-    .done(response => onSuccess(response)); // Console log API Response
+    // Fake API
+    const response = {
+        "gameName": "My Memory",
+        "levelGame": "Easy",
+        "numbersOfChances": 20,
+        "pictures": ['rond','carre','triangle','losange','etoile'],
+    };
+    // Success response of the fake API
+    onSuccess(response);
 };
 
 // DOM is load
 $(function () {
     // Call API
-    callAPI(response => response.forEach(addDatasInTheDom));
+    callAPI(addDatasInTheDom);
 });
