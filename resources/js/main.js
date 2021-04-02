@@ -2,7 +2,8 @@
 let cardsSelected = [];
 let nbChances;
 let score = 0;
-let pairFound = 0;
+let pairFound;
+let levelChoice;
 
 // Génération de l'ID Player
 const generateIdPlayer = function () {
@@ -12,7 +13,7 @@ const generateIdPlayer = function () {
 
 // Fonction checkWin
 const checkWin = function() {
-    if (pairFound == 5) {
+    if (pairFound == 0) {
         if (score > 0) {
             alert('Score : ' + score + ' | Vous avez gagné, pas mal le score !!!');
         } else if (score == 0) {
@@ -21,6 +22,9 @@ const checkWin = function() {
             alert('Score : ' + score + ' | Cela se passe de commentaires je pense avec un score pareil');
         }
 
+        setTimeout(location.reload(), 500);
+    } else if (nbChances == 0) {
+        alert('Vous avez perdu !!!');
         setTimeout(location.reload(), 500);
     }
 };
@@ -50,7 +54,7 @@ const checkImage = function (event) {
             if (cardsSelected[0].alt == cardsSelected[1].alt) {
                 // Ajouter +10 au score
                 score = score + 10;
-                pairFound = pairFound + 1;
+                pairFound = pairFound - 1;
             } else {
                 // Enlever une chance
                 nbChances = nbChances - 1;
@@ -73,7 +77,7 @@ const checkImage = function (event) {
             // On check to win ^^
             checkWin();
 
-        }, 300);
+        }, 200);
     }
 };
 
@@ -125,9 +129,9 @@ const addDatasInTheDom = function (response) {
 };
 
 // Function callAPI
-const callAPI = function (onSuccess) {
+const callAPI = function (onSuccess, level) {
     // Fake API
-    const response = {
+    const responseEasy = {
         "gameName": "My Memory",
         "levelGame": "Easy",
         "numbersOfChances": 20,
@@ -144,12 +148,86 @@ const callAPI = function (onSuccess) {
             'etoile'
         ],
     };
+
+    const responseMedium = {
+        "gameName": "My Memory",
+        "levelGame": "Medium",
+        "numbersOfChances": 20,
+        "pictures": [
+            'rond',
+            'carre',
+            'triangle',
+            'losange',
+            'etoile',
+            'rond',
+            'carre',
+            'triangle',
+            'losange',
+            'etoile',
+            'rond-bleu',
+            'carre-bleu',
+            'triangle-bleu',
+            'losange-bleu',
+            'etoile-bleu',
+            'rond-bleu',
+            'carre-bleu',
+            'triangle-bleu',
+            'losange-bleu',
+            'etoile-bleu',
+        ],
+    };
+
+    const responseHard = {
+        "gameName": "My Memory",
+        "levelGame": "Hard",
+        "numbersOfChances": 15,
+        "pictures": [
+            'rond',
+            'carre',
+            'triangle',
+            'losange',
+            'etoile',
+            'rond',
+            'carre',
+            'triangle',
+            'losange',
+            'etoile',
+            'rond-bleu',
+            'carre-bleu',
+            'triangle-bleu',
+            'losange-bleu',
+            'etoile-bleu',
+            'rond-bleu',
+            'carre-bleu',
+            'triangle-bleu',
+            'losange-bleu',
+            'etoile-bleu',
+        ],
+    };
+
     // Success response of the fake API
-    onSuccess(response);
+    if (level == 'easy') {
+        pairFound = 5;
+        onSuccess(responseEasy);
+    } else if (level == 'medium') {
+        pairFound = 10;
+        onSuccess(responseMedium);
+    } else if (level == 'hard') {
+        pairFound = 10;
+        onSuccess(responseHard);
+    } else {
+        pairFound = 5;
+        onSuccess(responseEasy);
+    }
 };
 
 // DOM is load
 $(function () {
+    // Check Level
+    levelChoice = $('#levelGame').val();
     // Call API
-    callAPI(addDatasInTheDom);
+    callAPI(addDatasInTheDom, levelChoice);
 });
+
+// Changer le niveau de difficulté
+$('#choiceLevel').on('click', () => location.reload());
